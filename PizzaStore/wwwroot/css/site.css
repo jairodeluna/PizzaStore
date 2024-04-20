@@ -16,3 +16,29 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.pagination {
+    display: inline-block;
+    float: right;
+}
+
+.pagination li {
+    display: inline;
+    margin-right: 5px;
+}
+
+.pagination li.active {
+    font-weight: bold;
+}
+
+.pagination li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.pagination li a:hover {
+    background-color: #f0f0f0;
+}

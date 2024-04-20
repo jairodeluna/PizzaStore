@@ -16,9 +16,19 @@ namespace PizzaStore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var products = _context.Pizzas.ToList();
+            const int pageSize = 15; 
+            int pageNumber = page ?? 1;
+
+            List<Pizza> products = _context.Pizzas.OrderBy(p => p.PizzaId)
+                                                     .Skip((pageNumber - 1) * pageSize)
+                                                     .Take(pageSize)
+                                                     .ToList();
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = Math.Ceiling((double)_context.Pizzas.Count() / pageSize);
             return View(products);
         }
 
@@ -63,9 +73,19 @@ namespace PizzaStore.Controllers
             }
         }
 
-        public IActionResult PizzaTypes()
+        public IActionResult PizzaTypes(int? page)
         {
-            var products = _context.PizzaTypes.ToList();
+            const int pageSize = 15;
+            int pageNumber = page ?? 1;
+
+            List<PizzaType> products = _context.PizzaTypes.OrderBy(p => p.Category)
+                                                     .Skip((pageNumber - 1) * pageSize)
+                                                     .Take(pageSize)
+                                                     .ToList();
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = Math.Ceiling((double)_context.PizzaTypes.Count() / pageSize);
             return View(products);
         }
 
@@ -111,9 +131,19 @@ namespace PizzaStore.Controllers
 
         }
 
-        public IActionResult Orders()
+        public IActionResult Orders(int? page)
         {
-            var products = _context.Orders.ToList();
+            const int pageSize = 1000;
+            int pageNumber = page ?? 1;
+
+            List<Order> products = _context.Orders.OrderBy(p => p.OrderId)
+                                                     .Skip((pageNumber - 1) * pageSize)
+                                                     .Take(pageSize)
+                                                     .ToList();
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = Math.Ceiling((double)_context.Orders.Count() / pageSize);
             return View(products);
 
         }
@@ -159,9 +189,19 @@ namespace PizzaStore.Controllers
 
         }
 
-        public IActionResult OrderDetails()
+        public IActionResult OrderDetails(int? page)
         {
-            var products = _context.OrderDetails.ToList();
+            const int pageSize = 2100;
+            int pageNumber = page ?? 1;
+
+            List<OrderDetail> products = _context.OrderDetails.OrderBy(p => p.OrderDetailsId)
+                                                     .Skip((pageNumber - 1) * pageSize)
+                                                     .Take(pageSize)
+                                                     .ToList();
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = Math.Ceiling((double)_context.OrderDetails.Count() / pageSize);
             return View(products);
         }
 
