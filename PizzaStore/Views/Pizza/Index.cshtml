@@ -1,0 +1,37 @@
+﻿@model List<Pizza>
+@{
+    ViewData["Title"] = "Import Pizza Details";
+}
+
+<h1>Import Pizza Details</h1>
+
+<form method="post" enctype="multipart/form-data" asp-action="ImportPizza">
+    <div class="form-group">
+        <label for="csvFile">Select CSV file:</label>
+        <input type="file" class="form-control-file" id="csvFile" name="csvFile"> <button type="submit" class="btn btn-primary">Import</button>
+        <br /><br />
+    </div>
+    
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pizza</th>
+            <th>PizzaType</th>
+            <th>Size</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.PizzaId</td>
+                <td>@product.PizzaType</td>
+                <td>@product.Size</td>
+                <td>@product.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
