@@ -110,5 +110,53 @@ namespace PizzaStore.Controllers
             }
 
         }
+
+        public IActionResult Orders()
+        {
+            var products = _context.Orders.ToList();
+            return View(products);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportOrders()
+        {
+            try
+            {
+                var file = Request.Form.Files.FirstOrDefault();
+
+                if (file != null && file.Length > 0)
+                {
+                    using (var reader = new StreamReader(file.OpenReadStream()))
+                    {
+                        using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+                        {
+                            var records = csvReader.GetRecords<dynamic>().ToList();
+
+                            foreach (var record in records)
+                            {
+                                var order = new Order
+                                {
+                                    OrderId = Convert.ToInt32(record.order_id),
+                                    Date = Convert.ToDateTime(record.date),
+                                    Time = record.time,
+                                };
+
+                                _context.Orders.Add(order);
+                            }
+
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+
+                return RedirectToAction("Orders");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
