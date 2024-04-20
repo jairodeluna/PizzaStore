@@ -24,11 +24,9 @@ namespace PizzaStore
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
             if (!env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Pizza/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Pizza/Error");.
                 app.UseHsts();
             }
 
