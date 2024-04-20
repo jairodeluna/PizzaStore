@@ -35,3 +35,14 @@
         }
     </tbody>
 </table>
+
+<div>
+    <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="@(i == ViewBag.PageNumber ? "active" : "")">
+                @Html.ActionLink(i.ToString(), "PizzaTypes", new { page = i })
+            </li>
+        }
+    </ul>
+</div>
