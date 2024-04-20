@@ -158,5 +158,53 @@ namespace PizzaStore.Controllers
             }
 
         }
+
+        public IActionResult OrderDetails()
+        {
+            var products = _context.OrderDetails.ToList();
+            return View(products);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportOrderDetails()
+        {
+            try
+            {
+                var file = Request.Form.Files.FirstOrDefault();
+
+                if (file != null && file.Length > 0)
+                {
+                    using (var reader = new StreamReader(file.OpenReadStream()))
+                    {
+                        using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+                        {
+                            var records = csvReader.GetRecords<dynamic>().ToList();
+
+                            foreach (var record in records)
+                            {
+                                var orderDetail = new OrderDetail
+                                {
+                                    OrderDetailsId = Convert.ToInt32(record.order_details_id),
+                                    OrderId = Convert.ToInt32(record.order_id),
+                                    PizzaId = record.pizza_id,
+                                    Quntity = Convert.ToInt32(record.quantity),
+                                };
+
+                                _context.OrderDetails.Add(orderDetail);
+                            }
+
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+
+                return RedirectToAction("OrderDetails");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
