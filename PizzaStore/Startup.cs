@@ -26,7 +26,7 @@ namespace PizzaStore
         {
             if (!env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Pizza/Error");.
+                app.UseExceptionHandler("/Pizza/Error");
                 app.UseHsts();
             }
 
